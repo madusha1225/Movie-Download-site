@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Movie Theme</title>
+	<link href="css/bootstrap.min.css" rel="stylesheet" >
+	<link href="css/font-awesome.min.css" rel="stylesheet" >
+	<link href="css/global.css" rel="stylesheet">
+	<link href="css/list.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Platypi:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+	<script src="js/bootstrap.bundle.min.js"></script>
+
+</head>
+<body>
+
+<div class="main_o main">
+ <div class="main_o1 bg_back">
+   <section id="header">
+<nav class="navbar navbar-expand-md navbar-light px_4" id="navbar_sticky">
+  <div class="container-fluid">
+    <a class="navbar-brand  p-0 fw-bold text-white" href="index.html"><i class="fa fa-modx col_oran"></i> CineVerse </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+	   <ul class="navbar-nav mb-0 ms-auto">
+
+        <li class="nav-item">
+          <a class="nav-link" aria-current="page" href="index.html">Home</a>
+        </li>
+
+		<li class="nav-item">
+          <a class="nav-link" href="about.html">About Us</a>
+        </li>
+
+		<li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdown1" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Movies
+          </a>
+          <ul class="dropdown-menu drop_1" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item" href="movies.html"><i class="fa fa-chevron-right font_12 me-1"></i> Movies</a></li>
+            <li><a class="dropdown-item border-0" href="detail.html"><i class="fa fa-chevron-right font_12 me-1"></i> Movie Details</a></li>
+          </ul>
+        </li>
+
+
+		<li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Pages
+          </a>
+          <ul class="dropdown-menu drop_1" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item" href="login.html"><i class="fa fa-chevron-right font_12 me-1"></i> Login</a></li>
+            <li><a class="dropdown-item" href="register.html"><i class="fa fa-chevron-right font_12 me-1"></i> Register</a></li>
+          </ul>
+        </li>
+
+		<li class="nav-item">
+          <a class="nav-link" href="contact.html">Contact Us</a>
+        </li>
+      </ul>
+      <ul class="navbar-nav mb-0 ms-auto">
+	       <li class="nav-item">
+          <a class="nav-link fs-5 drop_icon" data-bs-target="#exampleModal2" data-bs-toggle="modal" href="#"><i class="fa fa-search"></i></a>
+        </li>
+		    <li class="nav-item">
+          <a class="nav-link fs-5 drop_icon" href="#"><i class="fa fa-user"></i></a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+</section>
+   <section id="center" class="centre_o  pt-5 pb-5">
+ <div class="container-xl">
+  <div class="row centre_o1 text-center">
+    <div class="col-md-12">
+      <h1 class="text-white font_60">Movies</h1>
+	  <h5 class="mb-0 mt-3 fw-normal col_oran"><a class="text-light" href="#">Home</a> <span class="mx-2 text-muted">/</span> Movies</h5>
+   </div>
+  </div>
+ </div>
+</section>
+ </div>
+</div>
+
+<div class="border_dashed">
+	<div class="dropdown mt-3 ms-3">
+		<button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+			Categories
+		</button>
+		<ul class="dropdown-menu" id="categoryDropdown">
+		</ul>
+	</div>
+</div>
+
+<section id="trend" class="p_3">
+ <div class="container-xl">
+   <div class="row trend_2" id="carts">
+
+   </div>
+ </div>
+</section>
+
+<section id="footer_b" class="pt-3 pb-3 bg-dark">
+ <div class="container-xl">
+  <div class="footer_b1 row text-center">
+    <div class="col-md-12">
+	  <p class="mb-0 text-white-50">© 2013 Your Website Name. All Rights Reserved | Design by <a class="col_oran fw-bold" href="http://www.templateonweb.com">TemplateOnWeb</a></p>
+	</div>
+  </div>
+ </div>
+</section>
+
+<script src="js/common.js"></script>
+
+<script>
+
+	let movies = [];
+
+	let loadMovies = function () {
+		let token = localStorage.getItem("token");
+		$.ajax({
+			url: "http://localhost:8080/api/v1/movie/getAll",
+			type: "Get",
+			contentType: "application/json",
+			headers : { "Authorization": "Bearer " + token },
+
+			success : function (response) {
+				movies = response;
+				response.forEach(film => {
+					$("#carts").append(`
+						<div class="col-md-3 col-sm-6">
+							<div class="trend_2i position-relative">
+						       <div class="trend_2i1">
+						       		<img src="${film.movieImage}" class="w-100 h-200" alt="abc">
+								</div>
+						  	 <div class="trend_2i2 bg_back position-absolute w-100 h-100 top-0 px-4">
+						    	<h6 class="font_14 text-light">${film.category} </h6>
+								<h5><a class="text-white a_tag" href="detail.html">${film.name}</a></h5>
+								<h6 class="mb-0 mt-3"><a class="button_1 p-2 px-3 font_14" onclick="loadPage('${film.id}')">Watch Now</a></h6>
+						   	</div>
+						   </div>
+						 </div>
+					`)
+
+				})
+
+			},
+			error : function () {
+
+			}
+		})
+	}
+
+	loadMovies();
+
+	function loadPage(filmId) {
+		console.log(filmId)
+
+		let token = localStorage.getItem("token");
+
+		$.ajax({
+			url: "http://localhost:8080/api/v1/user/getoneuser?token=" + token,
+			type: "POST",
+			contentType: "application/json",
+			headers: { "Authorization": "Bearer " + token },
+			success: function(response) {
+				console.log("Response:", response);
+				if (response === "Subscribe"){
+					localStorage.setItem("movieId" , filmId)
+					window.location.href = "detail.html"
+				} else {
+					window.location.href = "subscription.html"
+				}
+			},
+			error: function() {
+				alert("Error fetching users. Please try again later.");
+			}
+		});
+	}
+
+	let loadCategory = function () {
+		let token = localStorage.getItem("token");
+		$.ajax({
+			url: "http://localhost:8080/api/v1/category/getCategories",
+			type: "Get",
+			contentType: "application/json",
+			headers : { "Authorization": "Bearer " + token },
+
+			success : function (response) {
+				response.forEach(category => {
+					$("#categoryDropdown").append(`
+					<li><a class="dropdown-item" href="#" onclick="showMovies('${category}')">${category}</a></li>
+					`)
+
+				})
+
+			},
+			error : function () {
+
+			}
+		})
+	}
+	loadCategory();
+
+	function showMovies(category) {
+		movies.forEach(film => {
+			if (film.category === category) {
+				$("#carts").html("");
+				$("#carts").append(`
+						<div class="col-md-3 col-sm-6">
+							<div class="trend_2i position-relative">
+						       <div class="trend_2i1">
+						       		<img src="${film.movieImage}" class="w-100 h-200" alt="abc">
+								</div>
+						  	 <div class="trend_2i2 bg_back position-absolute w-100 h-100 top-0 px-4">
+						    	<h6 class="font_14 text-light">${film.category} </h6>
+								<h5><a class="text-white a_tag" href="detail.html">${film.name}</a></h5>
+								<h6 class="mb-0 mt-3"><a class="button_1 p-2 px-3 font_14" onclick="loadPage('${film.id}')">Watch Now</a></h6>
+						   	</div>
+						   </div>
+						 </div>
+					`)
+			}
+		})
+	}
+</script>
+
+</body>
+
+
+</html>

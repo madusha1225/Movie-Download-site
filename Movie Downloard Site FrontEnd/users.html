@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>user Management</title>
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+  <style>
+    /* Sidebar */
+    .sidebar {
+      width: 250px;
+      height: 100vh;
+      position: fixed;
+      background: #343a40;
+      padding-top: 20px;
+    }
+    .sidebar h3 {
+      color: #ffffff;
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    .sidebar ul {
+      list-style-type: none;
+      padding: 0;
+    }
+    .sidebar ul li {
+      padding: 10px 20px;
+    }
+    .sidebar ul li a {
+      color: #ffffff;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+    }
+    .sidebar ul li a:hover {
+      background: #495057;
+      border-radius: 5px;
+    }
+    .sidebar ul li a i {
+      margin-right: 10px;
+    }
+    .content {
+      margin-left: 260px;
+      padding: 20px;
+    }
+  </style>
+</head>
+<body>
+
+<!-- sidebar.html -->
+<nav class="sidebar">
+  <div class="sidebar-header">
+    <h3>MOVIE ADMIN PANEL</h3>
+  </div>
+  <div class="sidebar-menu">
+    <ul>
+      <li><a href="new_movie.html"><i class="fas fa-film"></i> Manage Movies</a></li>
+      <li><a href="movies.html"><i class="fas fa-film"></i> Movies</a></li>
+      <li><a href="users.html"><i class="fas fa-user"></i> Users</a></li>
+      <li><a href="setting.html"><i class="fas fa-cog"></i> Settings</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- Main Content -->
+<div class="content">
+  <h2 class="mb-4"><i class="fas fa-users"></i> user Management</h2>
+
+  <hr>
+
+  <!-- user Table -->
+  <div class="card">
+    <div class="card-header bg-dark text-white">
+      <h5>user List</h5>
+    </div>
+    <div class="card-body">
+      <table class="table table-bordered">
+        <thead class="table-dark">
+        <tr>
+          <th>Name</th>
+          <th>Role</th>
+          <th>Email</th>
+          <th>subscription_plan</th>
+        </tr>
+        </thead>
+        <tbody id="userTableBody"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script>
+  function clearForm() {
+    $("#userForm")[0].reset();
+    $("#userId").val("");
+  }
+
+  let token = localStorage.getItem("token");
+
+  function loadUsers() {
+    $.ajax({
+      url: "http://localhost:8080/api/v1/user/getAll",
+      type: "GET",
+      contentType: "application/json",
+      headers: { "Authorization": "Bearer " + token },
+      success: function(response) {
+          let tableBody = $("#userTableBody");
+          tableBody.empty();
+          response.forEach(user => {
+            tableBody.append(`
+                    <tr>
+                        <td>${user.name}</td>
+                        <td>${user.role}</td>
+                        <td>${user.email}</td>
+                        <td>${user.subscription_plan}</td>
+                    </tr>
+                `);
+          });
+      },
+      error: function() {
+        alert("Error fetching users. Please try again later.");
+      }
+    });
+
+  }
+
+  loadUsers();
+
+  function saveuser() {
+    let userData = {
+      name: $("#name").val(),
+      role: $("#role").val(),
+      email: $("#email").val(),
+    };
+
+    $.ajax({
+      url: "http://localhost:8080/api/v1/user/save",
+      type: "POST",
+      headers: { "Authorization": "Bearer " + token },
+      contentType: "application/json",
+      data: JSON.stringify(userData),
+      success: function () {
+        alert("user saved successfully!");
+        $("#userForm")[0].reset();
+      }
+    });
+  }
+
+  function edituser(id, name, email, phone) {
+    $("#userId").val(id);
+    $("#name").val(name);
+    $("#email").val(email);
+    $("#phone").val(phone);
+  }
+
+  function updateuser() {
+    let userData = {
+      userId: $("#userId").val(),
+      name: $("#name").val(),
+      email: $("#email").val(),
+      phone: $("#phone").val()
+    };
+
+    $.ajax({
+      url: "http://localhost:8080/api/v1/user/update",
+      type: "PUT",
+      headers: { "Authorization": "Bearer " + token },
+      contentType: "application/json",
+      data: JSON.stringify(userData),
+      success: function () {
+        alert("user updated successfully!");
+        $("#userForm")[0].reset();
+      }
+    });
+  }
+
+  function deleteuser(id) {
+    if (confirm("Are you sure you want to delete this user?")) {
+      $.ajax({
+        url: `http://localhost:8080/api/v1/user/delete/${id}`,
+        type: "DELETE",
+        headers: { "Authorization": "Bearer " + token },
+        success: function () {
+          alert("user deleted successfully!");
+        }
+      });
+    }
+  }
+</script>
+
+</body>
+</html>

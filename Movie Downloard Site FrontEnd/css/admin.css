@@ -1,0 +1,148 @@
+/* General Styles */
+body {
+  font-family: 'Poppins', sans-serif;
+  background-color: #121212;
+  color: #ffffff;
+  margin: 0;
+}
+
+/* Sidebar */
+.sidebar {
+  width: 250px;
+  height: 100vh;
+  position: fixed;
+  background-color: #1e1e1e;
+  padding: 20px;
+  transition: all 0.3s;
+}
+
+.sidebar-header {
+  font-size: 20px;
+  text-align: center;
+  font-weight: bold;
+  color: #f39c12;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #333;
+}
+
+.sidebar-menu ul {
+  list-style: none;
+  padding: 0;
+}
+
+.sidebar-menu ul li {
+  padding: 15px 10px;
+}
+
+.sidebar-menu ul li a {
+  text-decoration: none;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+  transition: all 0.3s;
+}
+
+.sidebar-menu ul li a i {
+  width: 25px;
+  margin-right: 10px;
+  font-size: 18px;
+}
+
+.sidebar-menu ul li a:hover,
+.sidebar-menu ul li a.active {
+  background: #f39c12;
+  color: #121212;
+  border-radius: 5px;
+  padding-left: 15px;
+}
+
+/* Content */
+.content {
+  margin-left: 250px;
+  padding: 20px;
+  transition: all 0.3s;
+}
+
+/* Navbar */
+.navbar {
+  background: #1e1e1e;
+  padding: 10px;
+  border-bottom: 1px solid #333;
+}
+
+.navbar .btn-outline-secondary {
+  color: #ffffff;
+  border-color: #ffffff;
+}
+
+.navbar .btn-outline-secondary:hover {
+  background: #f39c12;
+  color: #121212;
+}
+
+.user-profile .nav-link {
+  color: #ffffff;
+  font-size: 16px;
+  transition: 0.3s;
+}
+
+.user-profile .nav-link:hover {
+  color: #f39c12;
+}
+
+/* Dashboard Cards */
+.dashboard-card {
+  padding: 20px;
+  border-radius: 10px;
+  color: #fff;
+  text-align: center;
+  margin-bottom: 20px;
+  box-shadow: 0px 0px 15px rgba(255, 255, 255, 0.1);
+}
+
+.bg-primary { background-color: #007bff; }
+.bg-success { background-color: #28a745; }
+.bg-warning { background-color: #f39c12; color: #121212; }
+.bg-info { background-color: #17a2b8; }
+
+/* Recent Movies Table */
+.table {
+  background: #1e1e1e;
+  color: #ffffff;
+  border-radius: 5px;
+}
+
+.table thead {
+  background: #f39c12;
+  color: #121212;
+}
+
+.table tbody tr:hover {
+  background: #333;
+}
+
+.badge {
+  font-size: 14px;
+  padding: 5px 10px;
+}
+
+/* Buttons */
+.btn-primary {
+  background: #f39c12;
+  border: none;
+}
+
+.btn-primary:hover {
+  background: #e67e22;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .sidebar {
+    width: 200px;
+  }
+  .content {
+    margin-left: 200px;
+  }
+}

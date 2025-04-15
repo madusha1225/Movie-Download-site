@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Manage Movie</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+    <style>
+        .sidebar {
+            width: 250px;
+            height: 100vh;
+            position: fixed;
+            background: #343a40;
+            padding-top: 20px;
+        }
+        .sidebar h3 {
+            color: #ffffff;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .sidebar ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        .sidebar ul li {
+            padding: 10px 20px;
+        }
+        .sidebar ul li a {
+            color: #ffffff;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+        }
+        .sidebar ul li a:hover {
+            background: #495057;
+            border-radius: 5px;
+        }
+        .sidebar ul li a i {
+            margin-right: 10px;
+        }
+        .content {
+            margin-left: 260px;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<nav class="sidebar">
+    <div class="sidebar-header">
+        <h3>MOVIE ADMIN PANEL</h3>
+    </div>
+    <div class="sidebar-menu">
+        <ul>
+            <li><a href="manage_movie.html"><i class="fas fa-film"></i> Manage Movies</a></li>
+            <li><a href="movies.html"><i class="fas fa-film"></i> Movies</a></li>
+            <li><a href="users.html"><i class="fas fa-user"></i> Users</a></li>
+            <li><a href="setting.html"><i class="fas fa-cog"></i> Settings</a></li>
+        </ul>
+    </div>
+</nav>
+
+<div class="content">
+    <h2 class="mb-4"><i class="fas fa-film"></i> Movie Management</h2>
+
+    <div class="card">
+        <div class="card-header bg-dark text-white">
+            <h5>Manage Movie</h5>
+        </div>
+        <div class="card-body">
+            <form>
+                <div class="mb-3">
+                    <label class="form-label">Select Movie</label>
+                    <select class="form-control" id="namesSelect">
+                        <option value="">Add New Movie</option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Movie Name</label>
+                    <input type="text" id="movieName" class="form-control" required>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Release Year</label>
+                    <input type="text" id="movieYear" class="form-control" required>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Category</label>
+                    <select id="movieCategory" class="form-control" required>
+                        <option value="Action">Action</option>
+                        <option value="Adventure">Adventure</option>
+                        <option value="Animation">Animation</option>
+                        <option value="Biography">Biography</option>
+                        <option value="Comedy">Comedy</option>
+                        <option value="Crime">Crime</option>
+                        <option value="Drama">Drama</option>
+                        <option value="Documentary">Documentary</option>
+                        <option value="Fantasy">Fantasy</option>
+                        <option value="Historical">Historical</option>
+                        <option value="Horror">Horror</option>
+                        <option value="Mystery">Mystery</option>
+                        <option value="Musical">Musical</option>
+                        <option value="Romance">Romance</option>
+                        <option value="Sci-Fi">Sci-Fi</option>
+                        <option value="Sports">Sports</option>
+                        <option value="Thriller">Thriller</option>
+                        <option value="War">War</option>
+                        <option value="Western">Western</option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Description</label>
+                    <textarea id="movieDescription" class="form-control" required></textarea>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Movie Image Link</label>
+                    <input type="url" id="movieImage" name="image" class="form-control" required>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Movie Link</label>
+                    <input type="url" id="movieLink" name="image" class="form-control" required>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Languages</label>
+                    <input type="text" id="movieLanguages" class="form-control" required>
+                </div>
+
+                <button type="button" id="savemovie" class="btn btn-success"> <i class="fas fa-save"></i> Save Movie</button>
+                <button type="button" id="updateMovie" class="btn btn-success"><i class="fas fa-upload"></i> Update Movie</button>
+                <button type="button" class="btn btn-secondary"><i class="fas fa-eraser"></i> Clear</button>
+            </form>
+
+            <form>
+                <button type="button" id="deleteMovie" class="btn btn-danger"><i class="fas fa-trash"></i> Delete Movie</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script>
+    let token = localStorage.getItem("token")
+    
+        $("#savemovie").click( function () {
+            let formData = {
+                name : $("#movieName").val(),
+                year : $("#movieYear").val(),
+                description : $("#movieDescription").val(),
+                filmLink : $("#movieLink").val(),
+                movieImage : $("#movieImage").val(),
+                languages : $("#movieLanguages").val(),
+                category : $("#movieCategory").val()
+            }
+            
+            console.log(formData);
+
+            $.ajax({
+                url: "http://localhost:8080/api/v1/movie/saveMovie",
+                type: "POST",
+                headers: {
+                      "Authorization": "Bearer " + token
+                },
+                contentType: "application/json",
+                data: JSON.stringify(formData),
+                success: function (response) {
+                    alert("Movie saved successfully!");
+                },
+                error: function () {
+                    alert("Error saving movie.");
+                }
+            });
+        });
+
+        // Delete Movie
+        $("#deleteMovie").on("click", function () {
+
+            console.log(movieId)
+
+            if (movieId !== 0) {
+                let formData = {
+                    id : movieId,
+                    name : $("#movieName").val(),
+                    year : $("#movieYear").val(),
+                    description : $("#movieDescription").val(),
+                    filmLink : $("#movieLink").val(),
+                    movieImage : $("#movieImage").val(),
+                    languages : $("#movieLanguages").val(),
+                    category : $("#movieCategory").val()
+                }
+
+                $.ajax({
+                    url: `http://localhost:8080/api/v1/movie/deleteMovie`,
+                    type: "POST",
+                    headers: {
+                        "Authorization": "Bearer " + token
+                    },
+                    contentType: "application/json",
+                    data : JSON.stringify(formData),
+                    success: function (response) {
+                        alert("Movie deleted successfully!");
+                    },
+                    error: function () {
+                        alert("Error deleting movie.");
+                    }
+                });
+            }
+
+        });
+
+        let movies = [];
+        let selector = $("#namesSelect");
+
+        let loadMoviesNames = function () {
+            $.ajax({
+                url: "http://localhost:8080/api/v1/movie/getAll",
+                type: "Get",
+                headers: {
+                    "Authorization": "Bearer " + token
+                },
+                success: function (response) {
+                    response.forEach(film => {
+                        let option = $(`<option value="${film.name}">${film.name}</option>`);
+                        option.data('film', film); // store full object as data attribute
+                        selector.append(option);
+                    });
+                },
+                error: function () {
+                    alert("Error saving movie.");
+                }
+            });
+        }
+        loadMoviesNames();
+
+    selector.on('change', function () {
+        let selectedOption = $(this).find(":selected");
+        let film = selectedOption.data('film');
+        setMovieDetails(film);
+    });
+
+    let movieId;
+
+        function setMovieDetails(film) {
+            console.log(film);
+            movieId = film.id;
+            $("#movieName").val(film.name);
+            $("#movieYear").val(film.year);
+            $("#movieCategory").val(film.category);
+            $("#movieDescription").val(film.description);
+            $("#movieImage").val(film.movieImage);
+            $("#movieLink").val(film.filmLink);
+            $("#movieLanguages").val(film.languages);
+        }
+
+    $("#updateMovie").click(function () {
+        console.log("okay")
+        let formData = {
+            id : movieId,
+            name : $("#movieName").val(),
+            year : $("#movieYear").val(),
+            description : $("#movieDescription").val(),
+            filmLink : $("#movieLink").val(),
+            movieImage : $("#movieImage").val(),
+            languages : $("#movieLanguages").val(),
+            category : $("#movieCategory").val()
+        }
+
+        console.log(formData);
+
+        $.ajax({
+            url: "http://localhost:8080/api/v1/movie/updateMovie",
+            type: "PUT",
+            headers: {
+                "Authorization": "Bearer " + token
+            },
+            contentType: "application/json",
+            data: JSON.stringify(formData),
+            success: function (response) {
+                alert("Movie saved successfully!");
+                movieId = 0;
+            },
+            error: function () {
+                alert("Error saving movie.");
+            }
+        });
+    })
+</script>
+
+</body>
+</html>
