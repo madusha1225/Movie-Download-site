@@ -66,12 +66,11 @@ The **Movie Streaming Website** is a full-featured platform designed for movie l
 
 > Add actual screenshots here to showcase UI
 
-- 🏠 Home Page  
+- 🏠 Home Page
 - 🔐 Login Page  
 - 📝 Signup Page  
 - 🎥 Movie Page with Comments  
 - 🧭 Category Filter Page  
-- 🛠️ Admin Dashboard  
 - ➕ Add Movie Page  
 - 👤 User List Page  
 
