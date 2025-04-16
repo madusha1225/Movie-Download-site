@@ -17,7 +17,7 @@ public class Film {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Integer id;
-    @Column(length = 45,nullable = false)
+    //@Column(length = 45,nullable = false)
     @NotBlank(message = "fill all details")
     private String name;
     @Column(name = "year")
