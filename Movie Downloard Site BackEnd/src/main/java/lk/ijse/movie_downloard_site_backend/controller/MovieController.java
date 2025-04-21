@@ -56,7 +56,7 @@ public class MovieController {
     }
 
     @PostMapping("/saveMovie")
-    @PreAuthorize("hasAuthority('USER')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public String saveMovie(@RequestBody FilmDTO filmDTO){
         Film film = new Film(filmDTO.getName(), filmDTO.getYear(),filmDTO.getDescription(), filmDTO.getFilmLink(),filmDTO.getMovieImage(),filmDTO.getLanguages());
         System.out.println("------------------------1----------------------------");

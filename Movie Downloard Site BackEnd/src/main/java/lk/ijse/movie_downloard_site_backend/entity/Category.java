@@ -17,7 +17,7 @@ public class Category {
     private int id;
     private String name;
 
-    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "category", cascade = CascadeType.MERGE,fetch = FetchType.EAGER)
     private List<Film> films;
 
     public Category(String name) {

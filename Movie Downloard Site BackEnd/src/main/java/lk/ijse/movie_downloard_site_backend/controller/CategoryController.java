@@ -16,7 +16,7 @@ public class CategoryController {
     private CategoryServiceImpl categoryService;
 
     @GetMapping("/getCategories")
-    @PreAuthorize("hasAuthority('USER')")
+    @PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
     public List<String> getCategory(){
       return  categoryService.getCategory();
     }

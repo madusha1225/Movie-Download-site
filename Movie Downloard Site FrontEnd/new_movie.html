@@ -148,9 +148,48 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script>
+    function validateForm() {
+        const name = $("#movieName").val().trim();
+        const year = $("#movieYear").val().trim();
+        const description = $("#movieDescription").val().trim();
+        const filmLink = $("#movieLink").val().trim();
+        const movieImage = $("#movieImage").val().trim();
+        const languages = $("#movieLanguages").val().trim();
+        const category = $("#movieCategory").val();
+
+        if (!name || !year || !description || !filmLink || !movieImage || !languages || !category) {
+            alert("Please fill in all fields.");
+            return false;
+        }
+
+        if (!/^\d{4}$/.test(year)) {
+            alert("Please enter a valid 4-digit year.");
+            return false;
+        }
+
+        if (!isValidURL(filmLink) || !isValidURL(movieImage)) {
+            alert("Please enter valid URLs for movie link and image.");
+            return false;
+        }
+
+        return true;
+    }
+
+    function isValidURL(str) {
+        try {
+            new URL(str);
+            return true;
+        } catch (_) {
+            return false;
+        }
+    }
+</script>
+<script>
     let token = localStorage.getItem("token")
     
         $("#savemovie").click( function () {
+            if (!validateForm()) return;
+
             let formData = {
                 name : $("#movieName").val(),
                 year : $("#movieYear").val(),
@@ -182,12 +221,13 @@
 
         // Delete Movie
         $("#deleteMovie").on("click", function () {
+            if (!validateForm()) return;
 
             console.log(movieId)
 
             if (movieId !== 0) {
                 let formData = {
-                    id : movieId,
+                    id : parseInt(movieId),
                     name : $("#movieName").val(),
                     year : $("#movieYear").val(),
                     description : $("#movieDescription").val(),
@@ -261,6 +301,7 @@
         }
 
     $("#updateMovie").click(function () {
+        if (!validateForm()) return;
         console.log("okay")
         let formData = {
             id : movieId,
